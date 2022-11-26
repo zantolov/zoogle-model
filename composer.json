@@ -1,0 +1,33 @@
+{
+  "name": "zantolov/zoogle-model",
+  "description": "Google Docs to PHP content model",
+  "authors": [
+    {
+      "name": "Zoran Antolovic",
+      "email": "zoran.antolovic.os@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Zantolov\\Zoogle\\Model\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Zantolov\\Zoogle\\Model\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "ext-json": "*",
+    "google/apiclient": "^2.11",
+    "ext-dom": "*",
+    "cocur/chain": "^0.9.0",
+    "beberlei/assert": "^3.3",
+    "thecodingmachine/safe": "^1.3"
+  },
+  "require-dev": {
+    "thecodingmachine/phpstan-safe-rule": "^1.0",
+    "phpunit/phpunit": "^9.5"
+  }
+}
