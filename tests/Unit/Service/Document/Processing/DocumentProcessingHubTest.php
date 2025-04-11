@@ -9,13 +9,6 @@ use Zantolov\Zoogle\Model\Model\Document\Document;
 use Zantolov\Zoogle\Model\Service\Processing\DocumentProcessingHub;
 use Zantolov\Zoogle\Model\Service\Processing\DocumentProcessor;
 
-/**
- * @internal
- *
- * @coversNothing
- *
- * @small
- */
 final class DocumentProcessingHubTest extends TestCase
 {
     public function test_it_sorts_processors_by_priority(): void
