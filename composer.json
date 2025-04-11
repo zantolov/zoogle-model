@@ -1,6 +1,7 @@
 {
   "name": "zantolov/zoogle-model",
   "description": "Google Docs to PHP content model",
+  "license": "MIT",
   "authors": [
     {
       "name": "Zoran Antolovic",
@@ -49,7 +50,7 @@
       "rector --ansi --no-progress-bar"
     ],
     "tests": [
-      "phpunit --colors --testsuite=unit"
+      "phpunit --colors"
     ]
   }
 }
