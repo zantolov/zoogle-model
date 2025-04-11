@@ -19,7 +19,7 @@
     }
   },
   "require": {
-    "php": ">=8.2",
+    "php": ">=8.3",
     "ext-json": "*",
     "google/apiclient": "^2.11",
     "ext-dom": "*",
