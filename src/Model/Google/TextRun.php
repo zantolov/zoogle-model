@@ -16,7 +16,9 @@ final readonly class TextRun
     public function getContent(): ?string
     {
         /** @var string|null $content */
-        return $this->decorated->getContent();
+        $content = $this->decorated->getContent();
+
+        return $content;
     }
 
     public function getTextStyle(): ?TextStyle

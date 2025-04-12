@@ -109,5 +109,6 @@ return (new Config())
         ],
         'phpdoc_no_alias_tag' => false,
         'php_unit_attributes' => true,
+        'return_assignment' => false,
     ])
     ->setFinder($finder);
