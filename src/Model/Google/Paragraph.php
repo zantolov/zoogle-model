@@ -34,7 +34,7 @@ final class Paragraph
 
         return array_map(
             static fn (GoogleParagraphElement $element): ParagraphElement => new ParagraphElement($element),
-            $this->decorated->getElements()
+            $this->decorated->getElements(),
         );
     }
 

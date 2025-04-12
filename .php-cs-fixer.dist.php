@@ -28,7 +28,7 @@ return (new Config())
         '@PhpCsFixer:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
-        '@PHPUnit84Migration:risky' => true,
+        '@PHPUnit100Migration:risky' => true,
         'binary_operator_spaces' => [
             'operators' => [
                 '&' => null,
@@ -108,5 +108,6 @@ return (new Config())
             ],
         ],
         'phpdoc_no_alias_tag' => false,
+        'php_unit_attributes' => true,
     ])
     ->setFinder($finder);

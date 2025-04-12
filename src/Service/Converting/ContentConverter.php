@@ -56,13 +56,13 @@ final class ContentConverter extends AbstractContentElementConverter
     /**
      * @param ParagraphElement[] $elements
      *
-     * @return array<int, null|Text>
+     * @return array<int, Text|null>
      */
     private function convertParagraphElements(array $elements): array
     {
         $paragraphElements = array_map(
             fn (ParagraphElement $element): ?Text => $this->convertParagraphElement($element),
-            $elements
+            $elements,
         );
 
         return array_filter($paragraphElements);
@@ -73,7 +73,7 @@ final class ContentConverter extends AbstractContentElementConverter
         // Skip empty content
         $textRun = $element->getTextRun();
         $content = $textRun?->getContent();
-        if (!$textRun instanceof TextRun || $content === null || empty(trim($content))) {
+        if (!$textRun instanceof TextRun || $content === null || empty(mb_trim($content))) {
             return null;
         }
 
@@ -84,7 +84,7 @@ final class ContentConverter extends AbstractContentElementConverter
             $style?->getBold() ?? false,
             $style?->getItalic() ?? false,
             $style?->getUnderline() ?? false,
-            $style?->getLinkUrl() ?? null
+            $style?->getLinkUrl() ?? null,
         );
     }
 }

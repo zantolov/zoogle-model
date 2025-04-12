@@ -12,7 +12,7 @@ final class Text implements DocumentElement
         public bool $bold = false,
         public bool $italic = false,
         public bool $underline = false,
-        public ?string $link = null
+        public ?string $link = null,
     ) {
     }
 

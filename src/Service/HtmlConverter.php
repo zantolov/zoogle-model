@@ -36,7 +36,7 @@ final class HtmlConverter
 
         if ($item instanceof Text) {
             $value = $item->value;
-            $value = rtrim($value, "\v");
+            $value = mb_rtrim($value, "\v");
             $value = str_replace("\v", '<br/>', $value);
 
             if ($item->link) {
@@ -62,7 +62,7 @@ final class HtmlConverter
             $content = array_reduce(
                 $item->texts,
                 fn (string $carry, Text $text): string => $carry.$this->renderItem($text),
-                ''
+                '',
             );
 
             return \Safe\sprintf('<p>%s</p>', $content);
@@ -72,7 +72,7 @@ final class HtmlConverter
             $content = array_reduce(
                 $item->texts,
                 fn (string $carry, Text $text): string => $carry.$this->renderItem($text),
-                ''
+                '',
             );
 
             return \Safe\sprintf('<li>%s</li>', $content);
@@ -94,7 +94,7 @@ final class HtmlConverter
                 '<img src="%s" alt="%s" data-description="%s"/>',
                 $item->src,
                 $item->alt,
-                $item->description
+                $item->description,
             );
         }
 

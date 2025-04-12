@@ -30,7 +30,7 @@ final class HeadingConverter extends AbstractContentElementConverter
     public function convert(Paragraph $paragraph): array
     {
         $content = $this->getUnformattedParagraphContent($paragraph);
-        $level = static::$headings[$paragraph->getNamedStyleType()] ?? null;
+        $level = self::$headings[$paragraph->getNamedStyleType()] ?? null;
 
         if ($level === null) {
             throw new \RuntimeException('Unsupported heading given');
@@ -46,6 +46,6 @@ final class HeadingConverter extends AbstractContentElementConverter
             return false;
         }
 
-        return \array_key_exists($style, static::$headings);
+        return array_key_exists($style, self::$headings);
     }
 }

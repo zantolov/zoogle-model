@@ -26,7 +26,7 @@ final class DocumentList implements DocumentElement
         return array_reduce(
             $this->items,
             static fn (string $carry, ListItem $item): string => $carry.$item->toString(),
-            ''
+            '',
         );
     }
 }

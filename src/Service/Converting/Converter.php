@@ -23,7 +23,7 @@ final class Converter
      * @param iterable<ElementConverter> $converters
      */
     public function __construct(
-        private iterable $converters
+        private iterable $converters,
     ) {
     }
 
@@ -86,9 +86,9 @@ final class Converter
             fn (\Google_Service_Docs_StructuralElement $element): string => array_reduce(
                 $this->generateElements($element),
                 static fn (string $carry, DocumentElement $element): string => $carry.$element->toString(),
-                ''
+                '',
             ),
-            $items
+            $items,
         );
 
         foreach ($items as $item) {
@@ -96,16 +96,16 @@ final class Converter
             $components = array_filter($components);
             $keyValues = array_map(
                 static fn (string $line) => explode(':', $line, 2),
-                $components
+                $components,
             );
             foreach ($keyValues as $keyValue) {
                 $key = $keyValue[0] ?? null;
                 Assertion::string($key);
-                $key = trim($key);
+                $key = mb_trim($key);
 
                 $value = $keyValue[1] ?? null;
                 Assertion::nullOrString($value);
-                $value = $value === null ? null : trim($value);
+                $value = $value === null ? null : mb_trim($value);
 
                 $meta[mb_strtolower($key)] = $value;
             }
@@ -159,7 +159,7 @@ final class Converter
                         'src' => $imageSrc,
                         'title' => $embeddedObject->getTitle(),
                         'description' => $embeddedObject->getDescription(),
-                    ]
+                    ],
                 );
             }
 

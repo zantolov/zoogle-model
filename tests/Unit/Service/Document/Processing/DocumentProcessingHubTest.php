@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Zantolov\ZoogleCms\Unit\Service\Document\Processing;
+namespace Tests\Zantolov\Zoogle\Model\Unit\Service\Document\Processing;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Zantolov\Zoogle\Model\Model\Document\Document;
 use Zantolov\Zoogle\Model\Service\Processing\DocumentProcessingHub;
 use Zantolov\Zoogle\Model\Service\Processing\DocumentProcessor;
 
+#[CoversNothing]
 final class DocumentProcessingHubTest extends TestCase
 {
     public function test_it_sorts_processors_by_priority(): void
@@ -45,6 +47,6 @@ final class DocumentProcessingHubTest extends TestCase
         $documentProcessingHub = new DocumentProcessingHub(new \ArrayIterator([$processor3, $processor1, $processor2]));
         $documentProcessingHub->process($this->createMock(Document::class));
 
-        $this->assertSame([1, 2, 3], $executionOrder);
+        self::assertSame([1, 2, 3], $executionOrder);
     }
 }

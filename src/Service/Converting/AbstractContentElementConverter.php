@@ -22,9 +22,9 @@ abstract class AbstractContentElementConverter implements ElementConverter
             $paragraph->getElements(),
             static fn (
                 string $carry,
-                ParagraphElement $element
-            ): string => $carry.trim($element->getTextRun()?->getContent() ?: ''),
-            ''
+                ParagraphElement $element,
+            ): string => $carry.mb_trim($element->getTextRun()?->getContent() ?: ''),
+            '',
         );
     }
 
@@ -34,9 +34,9 @@ abstract class AbstractContentElementConverter implements ElementConverter
             $paragraph->getElements(),
             fn (
                 string $carry,
-                ParagraphElement $element
+                ParagraphElement $element,
             ): string => $carry.$this->getFormattedParagraphElementContent($element),
-            ''
+            '',
         );
     }
 
@@ -48,7 +48,7 @@ abstract class AbstractContentElementConverter implements ElementConverter
         }
 
         $content = $textRun->getContent();
-        if ($content === null || empty(trim($content))) {
+        if ($content === null || empty(mb_trim($content))) {
             return '';
         }
 
