@@ -35,6 +35,7 @@ class Document
 
     public function getList(string $listId): ?DocumentList
     {
+        /** @var DocumentList|null */
         return Chain::create($this->lists)
             ->filter(static fn (DocumentList $list): bool => $list->id === $listId)
             ->first() ?: null;
@@ -42,6 +43,7 @@ class Document
 
     public function getObject(string $objectId): ?DocumentObject
     {
+        /** @var DocumentObject|null */
         return Chain::create($this->objects)
             ->filter(static fn (DocumentObject $object): bool => $object->id === $objectId)
             ->first() ?: null;
@@ -49,6 +51,7 @@ class Document
 
     public function getTitle(): ?Title
     {
+        /** @var Title|null */
         return Chain::create($this->elements)
             ->filter(static fn (DocumentElement $element): bool => $element instanceof Title)
             ->first() ?: null;
@@ -56,6 +59,7 @@ class Document
 
     public function getSubtitle(): ?Subtitle
     {
+        /** @var Subtitle|null */
         return Chain::create($this->elements)
             ->filter(static fn (DocumentElement $element): bool => $element instanceof Subtitle)
             ->first() ?: null;
@@ -63,16 +67,18 @@ class Document
 
     public function getMetadata(): ?Metadata
     {
+        /** @var Metadata|null */
         return Chain::create($this->elements)
             ->filter(static fn (DocumentElement $element): bool => $element instanceof Metadata)
             ->first() ?: null;
     }
 
     /**
-     * @return Image[]
+     * @return array<Image>
      */
     public function getImages(): array
     {
+        /** @var array<Image> */
         return Chain::create($this->elements)
             ->filter(static fn (DocumentElement $element): bool => $element instanceof Image)
             ->values()
@@ -80,10 +86,11 @@ class Document
     }
 
     /**
-     * @return Paragraph[]
+     * @return array<Paragraph>
      */
     public function getParagraphs(): array
     {
+        /** @var array<Paragraph> */
         return Chain::create($this->elements)
             ->filter(static fn (DocumentElement $element): bool => $element instanceof Paragraph)
             ->values()
@@ -101,6 +108,7 @@ class Document
     public function withElements(array $elements): self
     {
         $instance = clone $this;
+        /** @var list<DocumentElement> $elements */
         $instance->elements = $elements;
 
         return $instance;
@@ -113,6 +121,7 @@ class Document
             ->values()
             ->array;
 
+        /** @var list<DocumentElement> $items */
         return $this->withElements($items);
     }
 }
