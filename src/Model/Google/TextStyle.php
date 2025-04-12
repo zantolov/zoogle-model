@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Zantolov\Zoogle\Model\Model\Google;
 
+use Google\Service\Docs\Link;
 use Google\Service\Docs\TextStyle as GoogleTextStyle;
 
 /** @psalm-immutable */
-final class TextStyle
+final readonly class TextStyle
 {
     public function __construct(private GoogleTextStyle $decorated)
     {
@@ -30,7 +31,10 @@ final class TextStyle
 
     public function getLinkUrl(): ?string
     {
-        /** @phpstan-ignore-next-line */
-        return $this->decorated->getLink()?->getUrl();
+        /** @var Link|null $link */
+        $link = $this->decorated->getLink();
+
+        /** @var string|null */
+        return $link?->getUrl();
     }
 }

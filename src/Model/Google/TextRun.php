@@ -7,21 +7,27 @@ namespace Zantolov\Zoogle\Model\Model\Google;
 use Google\Service\Docs\TextRun as GoogleTextRun;
 
 /** @psalm-immutable */
-final class TextRun
+final readonly class TextRun
 {
-    /** @phpstan-ignore-next-line */
     public function __construct(private GoogleTextRun $decorated)
     {
     }
 
     public function getContent(): ?string
     {
+        /** @var string|null $content */
         return $this->decorated->getContent();
     }
 
     public function getTextStyle(): ?TextStyle
     {
-        /** @phpstan-ignore-next-line */
-        return $this->decorated->getTextStyle() ? new TextStyle($this->decorated->getTextStyle()) : null;
+        /** @var \Google\Service\Docs\TextStyle|null $textStyle */
+        $textStyle = $this->decorated->getTextStyle();
+
+        if ($textStyle !== null) {
+            return new TextStyle($this->decorated->getTextStyle());
+        }
+
+        return null;
     }
 }

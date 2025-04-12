@@ -12,7 +12,7 @@ final class Subtitle implements \Stringable, DocumentElement
 
     public function __toString(): string
     {
-        return $this->toString();
+        return $this->value;
     }
 
     public function toString(): string

@@ -8,6 +8,7 @@ use Zantolov\Zoogle\Model\Model\Document\DocumentElement;
 use Zantolov\Zoogle\Model\Model\Document\ListItem;
 use Zantolov\Zoogle\Model\Model\Document\Paragraph;
 use Zantolov\Zoogle\Model\Model\Document\Text;
+use Zantolov\Zoogle\Model\Model\Google\Bullet;
 use Zantolov\Zoogle\Model\Model\Google\Paragraph as GoogleParagraph;
 use Zantolov\Zoogle\Model\Model\Google\ParagraphElement;
 use Zantolov\Zoogle\Model\Model\Google\TextRun;
@@ -26,18 +27,15 @@ final class ContentConverter extends AbstractContentElementConverter
         $nestingLevel = null;
         $bullet = $paragraph->getBullet();
 
-        if ($bullet !== null) {
+        if ($bullet instanceof Bullet) {
             $listId = $bullet->getListId();
             $nestingLevel = $bullet->getNestingLevel();
         }
 
         $paragraphElements = $this->convertParagraphElements($paragraph->getElements());
-        if (empty($paragraphElements)) {
+        if ($paragraphElements === []) {
             throw new \RuntimeException('Empty result set after conversion. Tweak the supports method');
         }
-
-        /** @var list<Text> $paragraphElements */
-        $paragraphElements = array_filter($paragraphElements);
 
         // If the paragraph defines a list, wrap all the content in a ListItem that will later be joined in a list.
         if ($listId !== null) {
@@ -56,7 +54,7 @@ final class ContentConverter extends AbstractContentElementConverter
     /**
      * @param ParagraphElement[] $elements
      *
-     * @return array<int, Text|null>
+     * @return array<Text>
      */
     private function convertParagraphElements(array $elements): array
     {
@@ -65,6 +63,7 @@ final class ContentConverter extends AbstractContentElementConverter
             $elements,
         );
 
+        /** @var array<Text> */
         return array_filter($paragraphElements);
     }
 
@@ -73,7 +72,7 @@ final class ContentConverter extends AbstractContentElementConverter
         // Skip empty content
         $textRun = $element->getTextRun();
         $content = $textRun?->getContent();
-        if (!$textRun instanceof TextRun || $content === null || empty(mb_trim($content))) {
+        if (!$textRun instanceof TextRun || $content === null || in_array(mb_trim($content), ['', '0'], true)) {
             return null;
         }
 

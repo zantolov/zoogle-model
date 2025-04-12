@@ -7,6 +7,8 @@ namespace Zantolov\Zoogle\Model\Service\Converting;
 use Assert\Assertion;
 use Google\Service\Docs\Document as GoogleDocument;
 use Google\Service\Docs\Header;
+use Google\Service\Docs\NestingLevel;
+use Google\Service\Docs\Paragraph as GoogleParagraph;
 use Google\Service\Docs\SectionBreak;
 use Google\Service\Docs\StructuralElement;
 use Google\Service\Docs\Table;
@@ -17,7 +19,9 @@ use Zantolov\Zoogle\Model\Model\Document\DocumentObject;
 use Zantolov\Zoogle\Model\Model\Document\Metadata;
 use Zantolov\Zoogle\Model\Model\Google\Paragraph;
 
-final class Converter
+use function Safe\preg_split;
+
+final readonly class Converter
 {
     /**
      * @param iterable<ElementConverter> $converters
@@ -48,8 +52,11 @@ final class Converter
     private function generateElements(StructuralElement $element): array
     {
         $elements = [];
-        if ($element->getParagraph() !== null) {
-            $paragraph = new Paragraph($element->getParagraph());
+
+        /** @var GoogleParagraph|null $paragraph */
+        $paragraph = $element->getParagraph();
+        if ($paragraph !== null) {
+            $paragraph = new Paragraph($paragraph);
             foreach ($this->converters as $converter) {
                 if ($converter->supports($paragraph)) {
                     $elements = [...$elements, ...$converter->convert($paragraph)];
@@ -63,7 +70,7 @@ final class Converter
             // @todo
         }
 
-        /** @var ?SectionBreak<SectionBreak> $table */
+        /** @var SectionBreak<SectionBreak>|null $break */
         $break = $element->getSectionBreak();
         if ($break !== null) {
             // @todo
@@ -92,14 +99,17 @@ final class Converter
         );
 
         foreach ($items as $item) {
-            $components = \Safe\preg_split('/[\n\v]+/', $item);
+            $components = preg_split('/[\n\v]+/', $item);
             $components = array_filter($components);
-            $keyValues = array_map(
-                static fn (string $line) => explode(':', $line, 2),
-                $components,
-            );
+            $keyValues = [];
+            foreach ($components as $line) {
+                if (is_string($line)) {
+                    $keyValues[] = explode(':', $line, 2);
+                }
+            }
+
             foreach ($keyValues as $keyValue) {
-                $key = $keyValue[0] ?? null;
+                $key = $keyValue[0];
                 Assertion::string($key);
                 $key = mb_trim($key);
 
@@ -122,7 +132,10 @@ final class Converter
         $lists = [];
         foreach ($document->getLists() as $listId => $list) {
             $listProperties = $list->getListProperties();
-            $nestingLevels = $listProperties->getNestingLevels() ?? [];
+
+            /** @var list<NestingLevel>|null $nestingLevels */
+            $nestingLevels = $listProperties->getNestingLevels();
+            $nestingLevels = $nestingLevels ?: [];
             $firstNestingLevel = $nestingLevels[0] ?? null;
 
             $listType = match ($firstNestingLevel?->getGlyphType()) {
@@ -146,6 +159,7 @@ final class Converter
             $properties = $documentObject->getInlineObjectProperties();
             $embeddedObject = $properties->getEmbeddedObject();
 
+            /** @var string|null $imageSrc */
             $imageSrc = $embeddedObject->getImageProperties()->getContentUri();
 
             // @todo add support for cropped images

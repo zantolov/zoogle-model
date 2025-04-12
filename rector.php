@@ -14,11 +14,6 @@ use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\RemoveDataProviderParamKeysRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\NarrowIdenticalWithConsecutiveRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Zable\Rector\Rules\BehatStepNamingIsConsistentBetweenCodeAndDocblock\BehatStepNamingIsConsistentBetweenCodeAndDocblockRector;
-use Zable\Rector\Rules\ConfigureMethodOfSymfonyCommandIsAlwaysOnTopRector;
-use Zable\Rector\Rules\DataProviderMethodNamingRector;
-use Zable\Rector\Rules\DataProviderReturnTypeRector;
-use Zable\Rector\Rules\RenameTestMethodRector;
 
 
 return RectorConfig::configure()

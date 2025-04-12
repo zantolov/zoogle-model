@@ -20,10 +20,20 @@ abstract class AbstractContentElementConverter implements ElementConverter
     {
         return array_reduce(
             $paragraph->getElements(),
-            static fn (
+            static function (
                 string $carry,
                 ParagraphElement $element,
-            ): string => $carry.mb_trim($element->getTextRun()?->getContent() ?: ''),
+            ): string {
+                /** @var TextRun|null $textRun */
+                $textRun = $element->getTextRun();
+                $content = $textRun?->getContent();
+
+                return $carry.mb_trim(
+                    in_array($content, [null, '', '0'], true)
+                        ? ''
+                        : $content,
+                );
+            },
             '',
         );
     }
@@ -48,13 +58,13 @@ abstract class AbstractContentElementConverter implements ElementConverter
         }
 
         $content = $textRun->getContent();
-        if ($content === null || empty(mb_trim($content))) {
+        if ($content === null || in_array(mb_trim($content), ['', '0'], true)) {
             return '';
         }
 
         $url = $textRun->getTextStyle()?->getLinkUrl();
         if ($url !== null) {
-            return \Safe\sprintf('<a href="%s">%s</a>', $url, $content);
+            return '<a href="'.$url.'">'.$content.'</a>';
         }
 
         // @todo bold

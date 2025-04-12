@@ -6,8 +6,9 @@ namespace Zantolov\Zoogle\Model\Model\Document;
 
 final class DocumentList implements DocumentElement
 {
-    public const TYPE_ORDERED = 'ordered';
-    public const TYPE_UNORDERED = 'unordered';
+    public const string TYPE_ORDERED = 'ordered';
+
+    public const string TYPE_UNORDERED = 'unordered';
 
     /**
      * @param list<ListItem> $items

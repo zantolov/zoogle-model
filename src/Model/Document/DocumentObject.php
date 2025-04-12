@@ -6,7 +6,7 @@ namespace Zantolov\Zoogle\Model\Model\Document;
 
 final class DocumentObject implements DocumentElement
 {
-    public const TYPE_IMAGE = 'image';
+    public const string TYPE_IMAGE = 'image';
 
     /**
      * @param array<int|string, mixed> $properties

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Zantolov\Zoogle\Model\Model\Document;
 
+use function Safe\json_encode;
+
 final class Metadata implements DocumentElement
 {
     /**
@@ -44,6 +46,6 @@ final class Metadata implements DocumentElement
 
     public function toString(): string
     {
-        return \Safe\json_encode($this->values);
+        return json_encode($this->values);
     }
 }

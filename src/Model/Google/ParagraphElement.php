@@ -8,7 +8,7 @@ use Google\Service\Docs\InlineObjectElement;
 use Google\Service\Docs\ParagraphElement as GoogleParagraphElement;
 
 /** @psalm-immutable */
-final class ParagraphElement
+final readonly class ParagraphElement
 {
     public function __construct(private GoogleParagraphElement $decorated)
     {
@@ -16,8 +16,14 @@ final class ParagraphElement
 
     public function getTextRun(): ?TextRun
     {
-        /** @phpstan-ignore-next-line */
-        return $this->decorated->getTextRun() ? new TextRun($this->decorated->getTextRun()) : null;
+        /** @var \Google\Service\Docs\TextRun|null $textRun */
+        $textRun = $this->decorated->getTextRun();
+
+        if ($textRun !== null) {
+            return new TextRun($textRun);
+        }
+
+        return null;
     }
 
     /** @phpstan-ignore-next-line */

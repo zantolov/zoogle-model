@@ -6,20 +6,23 @@ namespace Zantolov\Zoogle\Model\Model\Google;
 
 use Google\Service\Docs\Paragraph as GoogleParagraph;
 use Google\Service\Docs\ParagraphElement as GoogleParagraphElement;
+use Google\Service\Docs\ParagraphStyle;
 
-final class Paragraph
+final readonly class Paragraph
 {
-    public function __construct(private readonly GoogleParagraph $decorated)
+    public function __construct(private GoogleParagraph $decorated)
     {
     }
 
     public function getBullet(): ?Bullet
     {
-        if ($this->decorated->getBullet() !== null) {
+        /** @var \Google\Service\Docs\Bullet|null $bullet */
+        $bullet = $this->decorated->getBullet();
+
+        if ($bullet !== null) {
             return new Bullet($this->decorated->getBullet());
         }
 
-        /** @phpstan-ignore-next-line */
         return null;
     }
 
@@ -32,6 +35,7 @@ final class Paragraph
             return [];
         }
 
+        /** @var list<ParagraphElement> */
         return array_map(
             static fn (GoogleParagraphElement $element): ParagraphElement => new ParagraphElement($element),
             $this->decorated->getElements(),
@@ -40,7 +44,13 @@ final class Paragraph
 
     public function getNamedStyleType(): ?string
     {
-        /** @phpstan-ignore-next-line */
-        return $this->decorated->getParagraphStyle()?->getNamedStyleType();
+        /** @var ParagraphStyle|null $style */
+        $style = $this->decorated->getParagraphStyle();
+
+        if ($style === null) {
+            return null;
+        }
+
+        return $style->getNamedStyleType();
     }
 }

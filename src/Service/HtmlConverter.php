@@ -31,7 +31,7 @@ final class HtmlConverter
     public function renderItem(DocumentElement $item): string
     {
         if ($item instanceof Heading) {
-            return \Safe\sprintf('<h%s>%s</h%s>', $item->level, $item->value, $item->level);
+            return '<h'.$item->level.'>'.$item->value.'</h'.$item->level.'>';
         }
 
         if ($item instanceof Text) {
@@ -39,20 +39,20 @@ final class HtmlConverter
             $value = mb_rtrim($value, "\v");
             $value = str_replace("\v", '<br/>', $value);
 
-            if ($item->link) {
-                return \Safe\sprintf('<a href="%s">%s</a>', $item->link, $value);
+            if ($item->link !== null && $item->link !== '' && $item->link !== '0') {
+                return '<a href="'.$item->link.'">'.$value.'</a>';
             }
 
             if ($item->italic) {
-                $value = \Safe\sprintf('<i>%s</i>', $value);
+                $value = '<i>'.$value.'</i>';
             }
 
             if ($item->underline) {
-                $value = \Safe\sprintf('<u>%s</u>', $value);
+                $value = '<u>'.$value.'</u>';
             }
 
             if ($item->bold) {
-                $value = \Safe\sprintf('<b>%s</b>', $value);
+                $value = '<b>'.$value.'</b>';
             }
 
             return $value;
@@ -65,7 +65,7 @@ final class HtmlConverter
                 '',
             );
 
-            return \Safe\sprintf('<p>%s</p>', $content);
+            return '<p>'.$content.'</p>';
         }
 
         if ($item instanceof ListItem) {
@@ -75,7 +75,7 @@ final class HtmlConverter
                 '',
             );
 
-            return \Safe\sprintf('<li>%s</li>', $content);
+            return '<li>'.$content.'</li>';
         }
 
         if ($item instanceof DocumentList) {
@@ -83,19 +83,14 @@ final class HtmlConverter
             $listItems = implode("\n", $listItems);
 
             return match ($item->type) {
-                DocumentList::TYPE_ORDERED => \Safe\sprintf('<ol>%s</ol>', $listItems),
-                DocumentList::TYPE_UNORDERED => \Safe\sprintf('<ul>%s</ul>', $listItems),
+                DocumentList::TYPE_ORDERED => '<ol>'.$listItems.'</ol>',
+                DocumentList::TYPE_UNORDERED => '<ul>'.$listItems.'</ul>',
                 default => throw new \InvalidArgumentException('Unsupported list type given: '.$item->type)
             };
         }
 
         if ($item instanceof Image) {
-            return \Safe\sprintf(
-                '<img src="%s" alt="%s" data-description="%s"/>',
-                $item->src,
-                $item->alt,
-                $item->description,
-            );
+            return '<img src="'.$item->src.'" alt="'.$item->alt.'" data-description="'.$item->description.'"/>';
         }
 
         // Skip these elements from the content

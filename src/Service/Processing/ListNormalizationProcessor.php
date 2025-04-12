@@ -6,7 +6,6 @@ namespace Zantolov\Zoogle\Model\Service\Processing;
 
 use Assert\Assertion;
 use Zantolov\Zoogle\Model\Model\Document\Document;
-use Zantolov\Zoogle\Model\Model\Document\DocumentList;
 use Zantolov\Zoogle\Model\Model\Document\ListItem;
 
 /**
@@ -26,6 +25,7 @@ final class ListNormalizationProcessor implements DocumentProcessor
                     $lists[$element->listId] = $list;
                     $elements[] = $list;
                 }
+
                 $list = $lists[$element->listId];
                 $list->add($element);
 

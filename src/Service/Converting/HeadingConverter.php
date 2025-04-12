@@ -42,10 +42,10 @@ final class HeadingConverter extends AbstractContentElementConverter
     public function supports(Paragraph $paragraph): bool
     {
         $style = $paragraph->getNamedStyleType();
-        if ($style === null) {
+        if ($style === '') {
             return false;
         }
 
-        return array_key_exists($style, self::$headings);
+        return $style !== null && array_key_exists($style, self::$headings);
     }
 }

@@ -6,7 +6,7 @@ namespace Zantolov\Zoogle\Model\Service\Processing;
 
 use Zantolov\Zoogle\Model\Model\Document\Document;
 
-final class DocumentProcessingHub
+final readonly class DocumentProcessingHub
 {
     /**
      * @var iterable<DocumentProcessor>

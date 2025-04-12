@@ -22,12 +22,15 @@ final class ObjectNormalizationProcessor implements DocumentProcessor
                 $object = $document->getObject($element->id);
                 Assertion::notNull($object);
                 if ($object->type === DocumentObject::TYPE_IMAGE) {
-                    $element = new Image(
-                        $object->id,
-                        $object->properties['src'] ?? null,
-                        $object->properties['title'] ?? null,
-                        $object->properties['description'] ?? null,
-                    );
+                    /** @phpstan-ignore cast.string */
+                    $src = isset($object->properties['src']) ? (string) $object->properties['src'] : '';
+
+                    /** @phpstan-ignore cast.string */
+                    $title = isset($object->properties['title']) ? (string) $object->properties['title'] : null;
+
+                    /** @phpstan-ignore cast.string */
+                    $description = isset($object->properties['description']) ? (string) $object->properties['description'] : null;
+                    $element = new Image($object->id, $src, $title, $description);
                 }
             }
 
@@ -37,7 +40,7 @@ final class ObjectNormalizationProcessor implements DocumentProcessor
         return $document->withElements($elements);
     }
 
-    private function convertInlineObjectToImage(GoogleDocument $document, InlineObject $object): ?Image
+    public function convertInlineObjectToImage(GoogleDocument $document, InlineObject $object): ?Image
     {
         $objects = $document->getInlineObjects();
         Assertion::isArray($objects);
@@ -47,6 +50,7 @@ final class ObjectNormalizationProcessor implements DocumentProcessor
             if ($id === $object->id) {
                 $embeddedObject = $documentObject->getInlineObjectProperties()->getEmbeddedObject();
 
+                /** @var string|null $imageSrc */
                 $imageSrc = $embeddedObject->getImageProperties()->getContentUri();
                 $alt = $embeddedObject->getTitle();
                 $description = $embeddedObject->getDescription();
@@ -55,7 +59,7 @@ final class ObjectNormalizationProcessor implements DocumentProcessor
                 // @todo add support for drawings
 
                 if ($imageSrc !== null) {
-                    return new Image($documentObject->getObjectId(), $imageSrc, $alt, $description);
+                    return new Image($documentObject->getObjectId(), (string) $imageSrc, (string) $alt, (string) $description);
                 }
             }
         }
