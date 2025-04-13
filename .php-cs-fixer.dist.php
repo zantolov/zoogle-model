@@ -3,7 +3,7 @@
 declare(strict_types=1);
 use PhpCsFixer\Finder;
 
-$finder = (new Finder())
+$finder = new Finder()
     ->in([
         './src',
         './tests',
