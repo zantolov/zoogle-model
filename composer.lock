@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfc19bd767518b3f4a0bc2201c3f01cf",
+    "content-hash": "fe1f94b455cb5b0bbcef9a52c4970454",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -5543,11 +5543,51 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
+        },
+        {
+            "name": "zantolov/toolbelt-dev",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zantolov/toolbelt-dev.git",
+                "reference": "b668a3272b46134f627c06d50ad2ccb9fd82b732"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zantolov/toolbelt-dev/zipball/b668a3272b46134f627c06d50ad2ccb9fd82b732",
+                "reference": "b668a3272b46134f627c06d50ad2ccb9fd82b732",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.75",
+                "php": "^8.4",
+                "phpstan/phpstan": "^2.1",
+                "rector/rector": "^2.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Zoran Antolović",
+                    "email": "zoran.antolovic.os@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/zantolov/toolbelt-dev/issues",
+                "source": "https://github.com/zantolov/toolbelt-dev/tree/master"
+            },
+            "time": "2025-04-13T18:05:28+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "zantolov/toolbelt-dev": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
